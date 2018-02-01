@@ -31,10 +31,11 @@ object PrettyPrint {
 trait PrettyPrint[AdditionalFx] {
   import PrettyPrint._
   type R = PrettyPrinterContext[AdditionalFx]
+  type PP[A] = Eff[R, A]
 
-  def runAdditionalFx(f: Eff[R, Unit]): Eff[PrettyPrinterContext[NoFx], Unit]
+  def runAdditionalFx(f: PP[Unit]): Eff[PrettyPrinterContext[NoFx], Unit]
 
-  def append(char: Char): Eff[R, Unit] =
+  def append(char: Char): PP[Unit] =
     if (char == '\n') {
       startNewLine()
     } else {
@@ -44,12 +45,12 @@ trait PrettyPrint[AdditionalFx] {
       } yield ()
     }
 
-  def append(str: String): Eff[R, Unit] = {
+  def append(str: String): PP[Unit] = {
     val lines = Foldable[List].intercalate(
       str.lines.toList.map(line => List(line)),
       List("\n"))
 
-    def printLines(lines: List[String]): Eff[R, Unit] =
+    def printLines(lines: List[String]): PP[Unit] =
       lines match {
         case Nil => empty
         case "\n" :: remaining => startNewLine() >> printLines(remaining)
@@ -58,21 +59,21 @@ trait PrettyPrint[AdditionalFx] {
     printLines(lines)
   }
 
-  def startNewLine(): Eff[R, Unit] =
+  def startNewLine(): PP[Unit] =
     for {
       _ <- write[R]("\n")
       _ <- modifyState[R](_.copy(atLineStart = true))
     } yield ()
 
-  def indent(): Eff[R, Unit] =
+  def indent(): PP[Unit] =
     modifyState[R](state => state.copy(indentation = state.indentation + 1))
 
-  def unindent(): Eff[R, Unit] = {
+  def unindent(): PP[Unit] = {
     // TODO: error handling
     modifyState[R](state => state.copy(indentation = state.indentation - 1))
   }
 
-  private def indentIfNeeded(): Eff[R, Unit] = {
+  private def indentIfNeeded(): PP[Unit] = {
     getState[R].flatMap { state =>
       if (state.atLineStart) {
         for {
@@ -99,42 +100,42 @@ trait PrettyPrint[AdditionalFx] {
     result
   }
 
-  def empty: Eff[R, Unit] =
+  def empty: PP[Unit] =
     unit[R]
 
-  def space: Eff[R, Unit] =
+  def space: PP[Unit] =
     append(' ')
 
-  def dollar: Eff[R, Unit] =
+  def dollar: PP[Unit] =
     append('$')
 
-  def newline: Eff[R, Unit] =
+  def newline: PP[Unit] =
     startNewLine()
 
-  def code(str: String): Eff[R, Unit] = {
+  def code(str: String): PP[Unit] = {
     append(str)
   }
 
-  def pretty[I](value: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): Eff[R, Unit] =
+  def pretty[I](value: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): PP[Unit] =
     innerPrettyPrinter.prettyPrint(value)
 
-  def between[I](left: String, right: String, inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): Eff[R, Unit] =
+  def between[I](left: String, right: String, inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): PP[Unit] =
     for {
       _ <- append(left)
       _ <- pretty(inner)
       _ <- append(right)
     } yield ()
 
-  def parenthesed[I](inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): Eff[R, Unit] =
+  def parenthesed[I](inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): PP[Unit] =
     between("(", ")", inner)
 
-  def squareBracketed[I](inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): Eff[R, Unit] =
+  def squareBracketed[I](inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): PP[Unit] =
     between("[", "]", inner)
 
-  def curlyBracketed[I](inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): Eff[R, Unit] =
+  def curlyBracketed[I](inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): PP[Unit] =
     between("{", "}", inner)
 
-  def doubleQuoted[I](inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): Eff[R, Unit] =
+  def doubleQuoted[I](inner: I)(implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): PP[Unit] =
     between("\"", "\"", inner)
 
   def indented[A](block: Eff[R, A]): Eff[R, A] =
@@ -149,13 +150,13 @@ trait PrettyPrint[AdditionalFx] {
       inner.map(elem => List(SeqElem(elem).asInstanceOf[SeqElemBase[I]])),
       List(SeqSeparator[I](separator)))
 
-  implicit def primitivePrettyPrinter: PrettyPrinter[Eff[R, Unit], AdditionalFx] =
-    (printer: Eff[R, Unit]) => printer
+  implicit def primitivePrettyPrinter: PrettyPrinter[PP[Unit], AdditionalFx] =
+    (printer: PP[Unit]) => printer
 
   implicit def sequencePrettyPrinter[I](implicit innerPrettyPrinter: PrettyPrinter[I, AdditionalFx]): PrettyPrinter[List[SeqElemBase[I]], AdditionalFx] =
     (elems: List[SeqElemBase[I]]) => {
 
-      def printItems(items: List[SeqElemBase[I]]): Eff[R, Unit] =
+      def printItems(items: List[SeqElemBase[I]]): PP[Unit] =
         items match {
           case Nil => empty
           case SeqElem(elem) :: remaining => pretty(elem) >> printItems(remaining)
