@@ -35,6 +35,9 @@ trait PrettyPrint[AdditionalFx] {
 
   def runAdditionalFx(f: PP[Unit]): Eff[PrettyPrinterContext[NoFx], Unit]
 
+  def changeIndentation(newValue: Int): PP[Unit] =
+    PrettyPrint.modifyState[R](_.copy(indentationSize = newValue))
+
   def append(char: Char): PP[Unit] =
     if (char == '\n') {
       startNewLine()

@@ -28,6 +28,7 @@ class PrettyPrinterSpecs extends SpecificationWithJUnit with PrettyPrinterTests[
     appending strings with newlines $appendMultiLine
     appending newline char works    $appendNewLineChar
     appending string ending newline $appendStringEndingNewLine
+    indentation can be changed      $changeIndent
   """
 
   override val pp = BasePrettyPrinter
@@ -62,4 +63,6 @@ class PrettyPrinterSpecs extends SpecificationWithJUnit with PrettyPrinterTests[
   def appendNewLineChar = indented(append("xyz") >> append('\n') >> append("123")) should bePrinting("    xyz\n    123")
 
   def appendStringEndingNewLine = (append("x\n") >> append("y")) should bePrinting("x\ny")
+
+  def changeIndent = (changeIndentation(2) >> indented(append("x"))) should bePrinting("  x")
 }
