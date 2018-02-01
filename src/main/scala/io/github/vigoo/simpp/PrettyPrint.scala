@@ -56,7 +56,13 @@ trait PrettyPrint[AdditionalFx] {
         case "\n" :: remaining => startNewLine() >> printLines(remaining)
         case other :: remaining => indentIfNeeded() >> write[R](other) >> printLines(remaining)
       }
-    printLines(lines)
+    printLines(lines) >> {
+      if (str.endsWith("\n")) {
+        startNewLine()
+      } else {
+        empty
+      }
+    }
   }
 
   def startNewLine(): PP[Unit] =
@@ -160,7 +166,7 @@ trait PrettyPrint[AdditionalFx] {
         items match {
           case Nil => empty
           case SeqElem(elem) :: remaining => pretty(elem) >> printItems(remaining)
-          case SeqSeparator(separator) :: remaining => code(separator)  >> printItems(remaining)
+          case SeqSeparator(separator) :: remaining => append(separator)  >> printItems(remaining)
         }
 
       printItems(elems)

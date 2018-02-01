@@ -8,7 +8,7 @@ object BasePrettyPrinter extends PrettyPrint[NoFx] {
   override def runAdditionalFx(f: Eff[BasePrettyPrinter.R, Unit]): Eff[PrettyPrinterContext[NoFx], Unit] = f
 }
 
-class PrettyPrinterSpecs extends Specification with PrettyPrinterTests[NoFx, BasePrettyPrinter.type] { def is = s2"""
+class PrettyPrinterSpecs extends SpecificationWithJUnit with PrettyPrinterTests[NoFx, BasePrettyPrinter.type] { def is = s2"""
   With the pretty printer
     empty prints nothing            $emptyTest
     space prints space              $spaceTest
@@ -24,7 +24,10 @@ class PrettyPrinterSpecs extends Specification with PrettyPrinterTests[NoFx, Bas
     indentation works               $indentedTest
     sequence without sep works      $seqWithoutSep
     sequence with sep works         $seqWithSep
+    sequence with newline in sep    $seqWithSepNewLine
     appending strings with newlines $appendMultiLine
+    appending newline char works    $appendNewLineChar
+    appending string ending newline $appendStringEndingNewLine
   """
 
   override val pp = BasePrettyPrinter
@@ -52,6 +55,11 @@ class PrettyPrinterSpecs extends Specification with PrettyPrinterTests[NoFx, Bas
 
   def seqWithoutSep = sequence(List(code("1"), code("2"), code("3"))) should bePrintedAs("123")
   def seqWithSep = sequence(List(code("1"), code("2"), code("3")), ", ") should bePrintedAs("1, 2, 3")
+  def seqWithSepNewLine = sequence(List(code("1"), code("2"), code("3")), ",\n") should bePrintedAs("1,\n2,\n3")
 
   def appendMultiLine = indented(append("first line\nsecond line")) >> newline >> code("third line") should bePrinting("    first line\n    second line\nthird line")
+
+  def appendNewLineChar = indented(append("xyz") >> append('\n') >> append("123")) should bePrinting("    xyz\n    123")
+
+  def appendStringEndingNewLine = (append("x\n") >> append("y")) should bePrinting("x\ny")
 }
