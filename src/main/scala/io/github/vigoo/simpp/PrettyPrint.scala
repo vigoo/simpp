@@ -32,8 +32,9 @@ trait PrettyPrint[AdditionalFx] {
   import PrettyPrint._
   type R = PrettyPrinterContext[AdditionalFx]
   type PP[A] = Eff[R, A]
+  type Result = Unit
 
-  def runAdditionalFx(f: PP[Unit]): Eff[PrettyPrinterContext[NoFx], Unit]
+  def runAdditionalFx(f: PP[Unit]): Eff[PrettyPrinterContext[NoFx], Result]
 
   def changeIndentation(newValue: Int): PP[Unit] =
     PrettyPrint.modifyState[R](_.copy(indentationSize = newValue))

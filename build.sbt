@@ -9,8 +9,8 @@ resolvers += Resolver.sonatypeRepo("releases")
 addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
 
 libraryDependencies ++= Seq(
-  "org.typelevel" %% "cats-core" % "1.0.1",
-  "org.atnos" %% "eff" % "5.0.0-20171107064756-b526890",
+  "org.typelevel" %% "cats-core" % "1.1.0",
+  "org.atnos" %% "eff" % "5.3.0",
 
   "org.specs2" %% "specs2-core" % "4.0.0" % "test",
   "org.specs2" %% "specs2-junit" % "4.0.0" % "test"
