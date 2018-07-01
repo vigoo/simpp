@@ -10,6 +10,12 @@ Built on top of [eff](http://atnos-org.github.io/eff/).
 
 ## Usage
 
+Add the following dependency:
+
+```scala
+libraryDependencies += "io.github.vigoo" %% "simpp" % "0.1"
+```
+
 Use the `PrettyPrint[AdditionalFx]` trait as a context to define the pretty printer. This defines the pretty printer
 context `PrettyPrinterContext` which is a combination of a writer and state effect plus the given effects specified in
 the `AdditionalFx` parameter. The pretty printer functions must have type `PP[A]` which is in fact 
