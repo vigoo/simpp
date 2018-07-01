@@ -1,6 +1,6 @@
 name := "simpp"
 organization := "io.github.vigoo"
-version := "0.1"
+version := "0.2-SNAPSHOT"
 
 scalaVersion := "2.12.4"
 
@@ -31,7 +31,7 @@ licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 publishTo := sonatypePublishTo.value
 
 import xerial.sbt.Sonatype._
-sonatypeProjectHosting := Some(GitHubHosting("vigoo", "prox", "daniel.vigovszky@gmail.com"))
+sonatypeProjectHosting := Some(GitHubHosting("vigoo", "simpp", "daniel.vigovszky@gmail.com"))
 
 developers := List(
   Developer(id="vigoo", name="Daniel Vigovszky", email="daniel.vigovszky@gmail.com", url=url("https://vigoo.github.io"))
