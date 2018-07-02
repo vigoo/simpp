@@ -13,7 +13,7 @@ Built on top of [eff](http://atnos-org.github.io/eff/).
 Add the following dependency:
 
 ```scala
-libraryDependencies += "io.github.vigoo" %% "simpp" % "0.1"
+libraryDependencies += "io.github.vigoo" %% "simpp" % "0.1.1"
 ```
 
 Use the `PrettyPrint[AdditionalFx]` trait as a context to define the pretty printer. This defines the pretty printer
