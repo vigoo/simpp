@@ -6,7 +6,7 @@ scalaVersion := "2.12.4"
 
 resolvers += Resolver.sonatypeRepo("releases")
 
-addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
+addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.9")
 
 libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "1.1.0",
