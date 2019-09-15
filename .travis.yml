@@ -1,11 +1,12 @@
 language: scala
 scala:
-- 2.12.4
+- 2.12.8
+- 2.13.0
 script:
-- sbt clean coverage test coverageReport
+- sbt ++$TRAVIS_SCALA_VERSION clean coverage test coverageReport
 after_success:
 - bash <(curl -s https://codecov.io/bash)
-- '[[ $TRAVIS_BRANCH == "master" ]] && { sbt clean coverageOff compile publish; };'
+- '[[ $TRAVIS_BRANCH == "master" ]] && { sbt ++$TRAVIS_SCALA_VERSION clean coverageOff compile publish; };'
 env:
   global:
   - secure: oDETeu+DVmy7KkoCqA658ZbDIYmsIx2lRBkclJh17AeHIiCnYasFGRDnDqZKEqqIfpHwUNBGIua3xe6+GRwBJwqZH3cnJVDUNMAgMp93bznvXAFEm2C0wixaXGz9tAdFMbEwVq57eW0TapiIKyx8VvLDybs9WsTh330qrqhttrWV6BUnMjlR4ULd6vyIXlijaO93s8LxgJPT1ogYetvUKqv89NmshA/BwTgYLv1MVYKcpPO+jIOQS3nMnULiI6MMIh2OLVnXBUXQx6f5dg+FzRMuCOJ5pZZxoFfjpA4wH6A+e4hVbBcpAvgkj1yuEPPvjF7EyjqeVDLbffpESJRGnFyaP6jDa4JJQY5QS8MbJJU3EqnD7gOl6xhOzdT5ilabYg7GCRAX/Ve+6Vp7X7HlStb57rG69rjcbM666a7kzkOAtEkjNIuB9iz2ej7xGBpD2JpxA4neg0R8nd6oR18TXRPeiYP4//Plqb5k1/NBuXPuh0zg3toIIMxTKdQQSTXMTzQcMXiNP0eyovFyqkPtKv/l9hlCzbc4kBG1Opu40JCRIeVMZ/wBOQBx7Lhz64GJPitVpsNzKBc/7mYLQCU3rBg+MxBQ4feIL37PH4p8//mgbjmIsyCynCpV0mB/+xoGKvlVp3zCRO85pMyVTVoSbHXvFaabvePWgCbYMwv7aHo=

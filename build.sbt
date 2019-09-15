@@ -1,22 +1,32 @@
 name := "simpp"
 organization := "io.github.vigoo"
-version := "0.2-SNAPSHOT"
 
-scalaVersion := "2.12.4"
+dynverSonatypeSnapshots in ThisBuild := true
 
-resolvers += Resolver.sonatypeRepo("releases")
+val scala212 = "2.12.8"
+val scala213 = "2.13.0"
 
-addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.10")
+scalaVersion := scala213
+crossScalaVersions := List(scala212, scala213)
+
+addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
 
 libraryDependencies ++= Seq(
-  "org.typelevel" %% "cats-core" % "1.6.1",
-  "org.atnos" %% "eff" % "5.5.0",
+  "org.typelevel" %% "cats-core" % "2.0.0",
+  "org.atnos" %% "eff" % "5.5.1",
 
-  "org.specs2" %% "specs2-core" % "4.6.0" % "test",
-  "org.specs2" %% "specs2-junit" % "4.6.0" % "test"
+  "org.specs2" %% "specs2-core" % "4.7.0" % "test",
+  "org.specs2" %% "specs2-junit" % "4.7.0" % "test"
 )
 
-scalacOptions ++= Seq("-Ypartial-unification", "-deprecation")
+val scalacOptions212 = Seq("-Ypartial-unification", "-deprecation")
+val scalacOptions213 = Seq("-deprecation")
+
+scalacOptions ++= (CrossVersion.partialVersion(scalaVersion.value) match {
+  case Some((2, 12)) => scalacOptions212
+  case Some((2, 13)) => scalacOptions213
+  case _ => Nil
+})
 
 coverageEnabled in(Test, compile) := true
 coverageEnabled in(Compile, compile) := false
