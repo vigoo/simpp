@@ -51,7 +51,7 @@ trait PrettyPrint[AdditionalFx] {
 
   def append(str: String): PP[Unit] = {
     val lines = Foldable[List].intercalate(
-      str.lines.toList.map(line => List(line)),
+      str.linesIterator.toList.map(line => List(line)),
       List("\n"))
 
     def printLines(lines: List[String]): PP[Unit] =
