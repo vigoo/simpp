@@ -12,11 +12,11 @@ crossScalaVersions := List(scala212, scala213)
 addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
 
 libraryDependencies ++= Seq(
-  "org.typelevel" %% "cats-core" % "2.0.0",
-  "org.atnos" %% "eff" % "5.5.2",
+  "org.typelevel" %% "cats-core" % "2.1.1",
+  "org.atnos" %% "eff" % "5.7.0",
 
-  "org.specs2" %% "specs2-core" % "4.8.1" % "test",
-  "org.specs2" %% "specs2-junit" % "4.8.1" % "test"
+  "org.specs2" %% "specs2-core" % "4.8.2" % "test",
+  "org.specs2" %% "specs2-junit" % "4.8.2" % "test"
 )
 
 val scalacOptions212 = Seq("-Ypartial-unification", "-deprecation")
