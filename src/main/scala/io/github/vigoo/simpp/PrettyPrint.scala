@@ -2,7 +2,6 @@ package io.github.vigoo.simpp
 
 import cats.Foldable
 import cats.data.{State, Writer}
-import cats.implicits._
 import org.atnos.eff.Members.&&:
 import org.atnos.eff._
 import org.atnos.eff.all._
