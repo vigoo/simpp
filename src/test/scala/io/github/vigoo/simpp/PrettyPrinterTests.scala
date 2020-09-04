@@ -1,6 +1,4 @@
 package io.github.vigoo.simpp
-
-import cats.instances.string._
 import org.atnos.eff._
 import org.atnos.eff.syntax.all._
 import org.specs2._
