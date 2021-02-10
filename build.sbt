@@ -12,7 +12,7 @@ crossScalaVersions := List(scala212, scala213)
 addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
 
 libraryDependencies ++= Seq(
-  "org.typelevel" %% "cats-core" % "2.4.0",
+  "org.typelevel" %% "cats-core" % "2.4.1",
   "org.atnos" %% "eff" % "5.14.0",
 
   "org.specs2" %% "specs2-core" % "4.10.6" % "test",
