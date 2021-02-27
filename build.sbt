@@ -3,7 +3,7 @@ organization := "io.github.vigoo"
 
 dynverSonatypeSnapshots in ThisBuild := true
 
-val scala212 = "2.12.8"
+val scala212 = "2.12.13"
 val scala213 = "2.13.5"
 
 scalaVersion := scala213
