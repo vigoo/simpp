@@ -4,7 +4,7 @@ organization := "io.github.vigoo"
 dynverSonatypeSnapshots in ThisBuild := true
 
 val scala212 = "2.12.13"
-val scala213 = "2.13.5"
+val scala213 = "2.13.6"
 
 scalaVersion := scala213
 crossScalaVersions := List(scala212, scala213)
