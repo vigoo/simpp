@@ -15,8 +15,8 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "2.6.1",
   "org.atnos" %% "eff" % "5.16.0",
 
-  "org.specs2" %% "specs2-core" % "4.11.0" % "test",
-  "org.specs2" %% "specs2-junit" % "4.11.0" % "test"
+  "org.specs2" %% "specs2-core" % "4.12.0" % "test",
+  "org.specs2" %% "specs2-junit" % "4.12.0" % "test"
 )
 
 val scalacOptions212 = Seq("-Ypartial-unification", "-deprecation")
