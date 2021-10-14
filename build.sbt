@@ -13,7 +13,7 @@ addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3")
 
 libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "2.6.1",
-  "org.atnos" %% "eff" % "5.19.0",
+  "org.atnos" %% "eff" % "5.21.0",
 
   "org.specs2" %% "specs2-core" % "4.12.3" % "test",
   "org.specs2" %% "specs2-junit" % "4.12.3" % "test"
